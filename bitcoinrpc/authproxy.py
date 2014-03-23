@@ -104,7 +104,8 @@ class AuthServiceProxy(object):
         postdata = json.dumps({'version': '1.1',
                                'method': self.__service_name,
                                'params': args,
-                               'id': self.__id_count})
+                               'id': self.__id_count}, ensure_ascii=False).encode('utf-8') ### twister can only handle utf-8 (not escaped multibyte)
+                                                                                           ### both are 'legit JSON', but my loyalty lies with twister :)
         self.__conn.request('POST', self.__url.path, postdata,
                             {'Host': self.__url.hostname,
                              'User-Agent': USER_AGENT,
